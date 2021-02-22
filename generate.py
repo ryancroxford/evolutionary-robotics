@@ -9,7 +9,8 @@ def Create_World():
     x = 2
     y = 2
     z = height/2
-    pyrosim.Send_Cube(name="Box", pos=[x+2, y+2, z], size=[length, width, height])
+    pyrosim.Send_Cube(name="Box", pos=[x+2, y+2, z],
+                      size=[length, width, height])
 
     pyrosim.End()
 
@@ -28,13 +29,16 @@ def Create_Robot():
                        type="revolute", position="1.0 0.0 1.0")
     x = -0.5
     z = -0.5
-    pyrosim.Send_Cube(name="Back_Leg", pos=[x, y, z], size=[length, width, height])
+    pyrosim.Send_Cube(name="Back_Leg", pos=[x, y, z],
+                      size=[length, width, height])
     # Create front leg
-    pyrosim.Send_Joint(name="Torso_Front_Leg", parent="Torso", child="Front_Leg",
-                       type="revolute", position="2.0 0.0 1.0")
+    pyrosim.Send_Joint(name="Torso_Front_Leg", parent="Torso",
+                       child="Front_Leg", type="revolute",
+                       position="2.0 0.0 1.0")
     x = 0.5
     z = -0.5
-    pyrosim.Send_Cube(name="Front_Leg", pos=[x, y, z], size=[length, width, height])
+    pyrosim.Send_Cube(name="Front_Leg", pos=[x, y, z],
+                      size=[length, width, height])
     pyrosim.End()
 
 
