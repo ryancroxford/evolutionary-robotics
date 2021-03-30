@@ -1,6 +1,6 @@
 import numpy as np
 
-ITERATIONS = 1000
+ITERATIONS = 1500
 PI = np.pi
 GRAVITY = -9.8
 MAX_FORCE = 25
@@ -17,3 +17,5 @@ amplitudeFrontLeg = PI/3
 frequencyFrontLeg = 20
 phaseOffsetFrontLeg = PI/3
 maxForceFrontLeg = 25
+
+numberOfGenerations = 40
