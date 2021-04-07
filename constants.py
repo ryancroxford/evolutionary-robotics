@@ -4,7 +4,7 @@ ITERATIONS = 1000
 PI = np.pi
 GRAVITY = -9.8
 MAX_FORCE = 25
-TIME_STEP = (1/30)
+TIME_STEP = (1/60)
 ZERO = 0
 
 
