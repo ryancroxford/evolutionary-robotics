@@ -18,4 +18,5 @@ frequencyFrontLeg = 20
 phaseOffsetFrontLeg = PI/3
 maxForceFrontLeg = 25
 
-numberOfGenerations = 40
+numberOfGenerations = 10
+populationSize = 10

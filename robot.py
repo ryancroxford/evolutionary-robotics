@@ -4,15 +4,18 @@ import pybullet as p
 import pyrosim.pyrosim as pyrosim
 import constants as c
 from pyrosim.neuralNetwork import NEURAL_NETWORK
+import os
 
 
 class Robot:
-    def __init__(self):
+    def __init__(self, solutionID):
         self.robot = p.loadURDF("body.urdf")
         pyrosim.Prepare_To_Simulate("body.urdf")
-        self.nn = NEURAL_NETWORK("brain.nndf")
+        self.nn = NEURAL_NETWORK(f"brain{solutionID}.nndf")
         self.Prepare_To_Sense()
         self.Prepare_To_Act()
+        self.solutionID = solutionID
+        os.system(f"rm brain{self.solutionID}.nndf")
 
     def Prepare_To_Sense(self):
         self.sensors = dict()
@@ -43,9 +46,12 @@ class Robot:
         stateOfLinkZero = p.getLinkState(self.robot, 0)
         positionOfLinkZero = stateOfLinkZero[0]
         xCoordinateOfLinkZero = positionOfLinkZero[0]
-        outFileName = "fitness.txt"
+        outFileName = f"tmp{self.solutionID}.txt"
         try:
             outFile = open(outFileName, 'w')
             outFile.write(str(xCoordinateOfLinkZero))
+            outFile.close()
+            # print(f"Writing {outFileName}")
+            os.system(f"mv tmp{self.solutionID}.txt fitness{self.solutionID}.txt")
         except IOError:
             print(f"Error opening {outFileName}")

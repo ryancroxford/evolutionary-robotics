@@ -6,24 +6,36 @@ import constants as c
 from pyrosim.neuralNetwork import NEURAL_NETWORK
 import numpy as np
 import os
-
+import time
 
 class Solution:
-    def __init__(self):
+    def __init__(self, nextAvailableID):
         self.weights = np.random.rand(3, 2)
         self.weights = self.weights * 2 - 1
         self.fitness = None
+        self.myID = nextAvailableID
 
-    def Evaluate(self, directOrGUI):
+    def Set_ID(self, ID):
+        self.myID = ID
+
+    def Start_Simulation(self, directOrGUI):
         self.Create_World()
         self.Create_Body()
         self.Create_Brain()
-        os.system(f"python3 simulate.py {directOrGUI}")
-        inFileName = "fitness.txt"
+        os.system(f"python3 simulate.py {directOrGUI} {self.myID} &")
+
+    def Wait_For_Simulation_To_End(self):
+        inFileName = f"fitness{self.myID}.txt"
+        while not os.path.exists(inFileName):
+            time.sleep(0.01)
         try:
+            # print(f'opening: {inFileName}')
             inFile = open(inFileName, 'r')
-            self.fitness = float(inFile.read())
+            line = inFile.read()
+            self.fitness = float(line)
+            # print(self.fitness)
             inFile.close()
+            os.system(f"rm fitness{self.myID}.txt")
         except IOError:
             print(f"Error opening {inFileName}")
 
@@ -72,7 +84,7 @@ class Solution:
         pyrosim.End()
 
     def Create_Brain(self):
-        pyrosim.Start_NeuralNetwork("brain.nndf")
+        pyrosim.Start_NeuralNetwork(f"brain{self.myID}.nndf")
         sensor_names = ["Torso", "Back_Leg", "Front_Leg"]
         motor_names = ["Torso_Back_Leg", "Torso_Front_Leg"]
 
