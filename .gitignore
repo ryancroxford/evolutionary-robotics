@@ -3,6 +3,7 @@ data/*
 .idea/
 .idea
 .DS_Store
+*.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
