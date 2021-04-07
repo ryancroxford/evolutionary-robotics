@@ -16,7 +16,7 @@ def Create_World():
     pyrosim.End()
 
 
-def Generate_Body():
+def Create_Body():
     pyrosim.Start_URDF("body.urdf")
     length = 1
     width = 1
@@ -43,7 +43,7 @@ def Generate_Body():
     pyrosim.End()
 
 
-def Generate_Brain():
+def Create_Brain():
     pyrosim.Start_NeuralNetwork("brain.nndf")
     sensor_names = ["Torso", "Back_Leg", "Front_Leg"]
     motor_names = ["Torso_Back_Leg", "Torso_Front_Leg"]
@@ -63,8 +63,8 @@ def Generate_Brain():
 
 def main():
     Create_World()
-    Generate_Body()
-    Generate_Brain()
+    Create_Body()
+    Create_Brain()
 
 
 main()

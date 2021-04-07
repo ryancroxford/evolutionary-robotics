@@ -37,4 +37,15 @@ class Robot:
 
     def Think(self):
         self.nn.Update()
-        self.nn.Print()
+        # self.nn.Print()
+
+    def Get_Fitness(self):
+        stateOfLinkZero = p.getLinkState(self.robot, 0)
+        positionOfLinkZero = stateOfLinkZero[0]
+        xCoordinateOfLinkZero = positionOfLinkZero[0]
+        outFileName = "fitness.txt"
+        try:
+            outFile = open(outFileName, 'w')
+            outFile.write(str(xCoordinateOfLinkZero))
+        except IOError:
+            print(f"Error opening {outFileName}")
