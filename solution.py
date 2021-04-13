@@ -59,6 +59,17 @@ class Solution:
 
     def Create_Body(self):
         pyrosim.Start_URDF("body.urdf")
+        # cubes = [["Torso", [0.0, 0.0, 1.0], [1.0, 1.0, 1.0]],
+        #          ["Back_Leg", [0.0, -0.5, 0.0], [0.2, 1, 0.2]],
+        #          ["Front_Leg", [0.0, 0.5, 0.0], [0.2, 1, 0.2]],
+        #          ["Left_Leg", [0,0,1], [1,1,1]],
+        #          ["Torso", [0,0,1], [1,1,1]],
+        #          ["Torso", [0,0,1], [1,1,1]],
+        #          ["Torso", [0,0,1], [1,1,1]],
+        #          ["Torso", [0,0,1], [1,1,1]],
+        #          ["Torso", [0,0,1], [1,1,1]]]
+
+
         length = 1
         width = 1
         height = 1
@@ -164,6 +175,16 @@ class Solution:
 
         pyrosim.End()
 
+
+    def Create_Joint(self, name, parent, child, type, position, jointAxis):
+        pyrosim.Send_Joint(name=name, parent=parent,
+                           child=child, type=type,
+                           position=position, jointAxis=jointAxis)
+
+    def Create_Cube(self, name, position, size):
+        pyrosim.Send_Cube(name=name, pos=position,
+                          size=size)
+
     def Create_Brain(self):
         pyrosim.Start_NeuralNetwork(f"brain{self.myID}.nndf")
         sensor_names = ["Back_Lower_Leg", "Front_Lower_Leg", "Left_Lower_Leg", "Right_Lower_Leg"]
@@ -186,4 +207,3 @@ class Solution:
                                      weight=self.weights[currentRow][currentCol])
 
         pyrosim.End()
-
