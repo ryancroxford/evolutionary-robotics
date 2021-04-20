@@ -18,8 +18,8 @@ frequencyFrontLeg = 20
 phaseOffsetFrontLeg = PI/3
 maxForceFrontLeg = 25
 
-numberOfGenerations = 10
-populationSize = 10
+numberOfGenerations = 40
+populationSize = 15
 
 numSensorNeurons = 4
 numMotorNeurons = 8

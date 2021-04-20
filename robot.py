@@ -9,6 +9,7 @@ import os
 
 class Robot:
     def __init__(self, solutionID):
+        self.sensors = dict()
         self.robot = p.loadURDF("body.urdf")
         pyrosim.Prepare_To_Simulate("body.urdf")
         self.nn = NEURAL_NETWORK(f"brain{solutionID}.nndf")
@@ -18,7 +19,6 @@ class Robot:
         os.system(f"rm brain{self.solutionID}.nndf")
 
     def Prepare_To_Sense(self):
-        self.sensors = dict()
         for linkName in pyrosim.linkNamesToIndices:
             self.sensors[linkName] = Sensor(linkName)
 
