@@ -5,11 +5,11 @@ import pyrosim.pyrosim as pyrosim
 import constants as c
 from pyrosim.neuralNetwork import NEURAL_NETWORK
 import os
+import numpy as np
 
 
 class Robot:
     def __init__(self, solutionID):
-        self.sensors = dict()
         self.robot = p.loadURDF("body.urdf")
         pyrosim.Prepare_To_Simulate("body.urdf")
         self.nn = NEURAL_NETWORK(f"brain{solutionID}.nndf")
@@ -19,6 +19,7 @@ class Robot:
         os.system(f"rm brain{self.solutionID}.nndf")
 
     def Prepare_To_Sense(self):
+        self.sensors = dict()
         for linkName in pyrosim.linkNamesToIndices:
             self.sensors[linkName] = Sensor(linkName)
 
@@ -43,14 +44,32 @@ class Robot:
         # self.nn.Print()
 
     def Get_Fitness(self):
-        basePositionAndOrientation = p.getBasePositionAndOrientation(self.robot)
-        basePosition = basePositionAndOrientation[0]
-        xPosition = basePosition[0]
-        zPosition = basePosition[2]
+        lowerLinkNames = ["Back_Lower_Leg", "Front_Leg", "Back_Lower_Leg", "Right_Leg"]
+        lowerLinkSensorValues_array = []
+        for linkName in lowerLinkNames:
+            print(linkName)
+            lowerLinkSensorValues_array.append(self.sensors[linkName].values)
+        lowerLinkSensorValues_tuple = tuple(lowerLinkSensorValues_array)
+        lowerLinkSensorValues = np.vstack(lowerLinkSensorValues_array)
+        print(lowerLinkSensorValues)
+        lowerLinkSensorValues_means = np.mean(lowerLinkSensorValues, axis=0)
+        print(lowerLinkSensorValues_means)
+        try:
+            idx_pairs = np.where(np.diff(np.hstack(([False],
+                                                    lowerLinkSensorValues_means == -1,
+                                                    [False]))))[0].reshape(-1, 2)
+            print(idx_pairs)
+            longestFlightTime = idx_pairs[np.diff(idx_pairs,axis=1).argmax(),1] - idx_pairs[np.diff(idx_pairs, axis=1).argmax(), 0]
+        except ValueError:
+            longestFlightTime = 0
+        # basePositionAndOrientation = p.getBasePositionAndOrientation(self.robot)
+        # basePosition = basePositionAndOrientation[0]
+        # xPosition = basePosition[0]
+        # zPosition = basePosition[2]
         outFileName = f"tmp{self.solutionID}.txt"
         try:
             outFile = open(outFileName, 'w')
-            outFile.write(str(zPosition))
+            outFile.write(str(longestFlightTime))
             outFile.close()
             # print(f"Writing {outFileName}")
             os.system(f"mv tmp{self.solutionID}.txt fitness{self.solutionID}.txt")
