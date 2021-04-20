@@ -101,7 +101,7 @@ class Solution:
         # Create left leg
         pyrosim.Send_Joint(name="Torso_Left_Leg", parent="Torso",
                            child="Left_Leg", type="revolute",
-                           position="-0.5 0.0 1.0", jointAxis="1 0 0")
+                           position="-0.5 0.0 1.0", jointAxis="0 1 0")
         x = -0.5
         y = 0.0
         z = 0.0
@@ -114,7 +114,7 @@ class Solution:
         # Create right leg
         pyrosim.Send_Joint(name="Torso_Right_Leg", parent="Torso",
                            child="Right_Leg", type="revolute",
-                           position="0.5 0.0 1.0", jointAxis="1 0 0")
+                           position="0.5 0.0 1.0", jointAxis="0 1 0")
         x = 0.5
         y = 0.0
         z = 0.0
@@ -150,7 +150,7 @@ class Solution:
         # Create left lower leg
         pyrosim.Send_Joint(name="Left_Lower_Leg_Joint", parent="Left_Leg",
                            child="Left_Lower_Leg", type="revolute",
-                           position="-1.0 0.0 0.0", jointAxis="1 0 0")
+                           position="-1.0 0.0 0.0", jointAxis="0 1 0")
         x = 0.0
         y = 0.0
         z = -0.5
@@ -163,7 +163,7 @@ class Solution:
         # Create right lower leg
         pyrosim.Send_Joint(name="Right_Lower_Leg_Joint", parent="Right_Leg",
                            child="Right_Lower_Leg", type="revolute",
-                           position="1.0 0.0 0.0", jointAxis="1 0 0")
+                           position="1.0 0.0 0.0", jointAxis="0 1 0")
         x = 0.0
         y = 0.0
         z = -0.5
