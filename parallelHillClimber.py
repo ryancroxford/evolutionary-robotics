@@ -54,10 +54,10 @@ class ParallelHillClimber:
 
     def Show_Best(self):
         bestParent = None
-        bestFitness = 100000
+        bestFitness = -100000
         for key in self.parents:
             parent = self.parents[key]
-            if parent.fitness < bestFitness:
+            if parent.fitness > bestFitness:
                 bestParent = parent
                 bestFitness = parent.fitness
         print(bestFitness)

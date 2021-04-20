@@ -4,7 +4,7 @@ ITERATIONS = 1500
 PI = np.pi
 GRAVITY = -9.8
 MAX_FORCE = 25
-TIME_STEP = (1/1020)
+TIME_STEP = (1/520)
 ZERO = 0
 
 
@@ -18,8 +18,8 @@ frequencyFrontLeg = 20
 phaseOffsetFrontLeg = PI/3
 maxForceFrontLeg = 25
 
-numberOfGenerations = 20
-populationSize = 32
+numberOfGenerations = 10
+populationSize = 10
 
 numSensorNeurons = 4
 numMotorNeurons = 8
