@@ -62,10 +62,10 @@ class Robot:
             longestFlightTime = idx_pairs[np.diff(idx_pairs,axis=1).argmax(),1] - idx_pairs[np.diff(idx_pairs, axis=1).argmax(), 0]
         except ValueError:
             longestFlightTime = 0
-        # basePositionAndOrientation = p.getBasePositionAndOrientation(self.robot)
-        # basePosition = basePositionAndOrientation[0]
+        basePositionAndOrientation = p.getBasePositionAndOrientation(self.robot)
+        basePosition = basePositionAndOrientation[0]
         # xPosition = basePosition[0]
-        # zPosition = basePosition[2]
+        zPosition = basePosition[2]
         outFileName = f"tmp{self.solutionID}.txt"
         try:
             outFile = open(outFileName, 'w')
