@@ -4,6 +4,7 @@ import constants as c
 from pyrosim.neuralNetwork import NEURAL_NETWORK
 from solution import Solution
 import copy
+import subprocess
 
 
 class ParallelHillClimber:
@@ -21,6 +22,7 @@ class ParallelHillClimber:
     def Evaluate(self, solutions):
         for key in solutions:
             solutions[key].Start_Simulation("DIRECT")
+        subprocess.run("wait", shell=True)
         for key in solutions:
             solutions[key].Wait_For_Simulation_To_End()
 

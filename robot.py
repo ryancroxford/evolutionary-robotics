@@ -62,14 +62,18 @@ class Robot:
             longestFlightTime = idx_pairs[np.diff(idx_pairs,axis=1).argmax(),1] - idx_pairs[np.diff(idx_pairs, axis=1).argmax(), 0]
         except ValueError:
             longestFlightTime = 0
+
+        heights = [self.sensors["Torso"].values]
+        maxHeight = np.amax(heights)
         basePositionAndOrientation = p.getBasePositionAndOrientation(self.robot)
         basePosition = basePositionAndOrientation[0]
-        # xPosition = basePosition[0]
+        xPosition = basePosition[0]
         zPosition = basePosition[2]
         outFileName = f"tmp{self.solutionID}.txt"
+        fitness = longestFlightTime*maxHeight*(-xPosition)
         try:
             outFile = open(outFileName, 'w')
-            outFile.write(str(longestFlightTime))
+            outFile.write(str(fitness))
             outFile.close()
             # print(f"Writing {outFileName}")
             os.system(f"mv tmp{self.solutionID}.txt fitness{self.solutionID}.txt")

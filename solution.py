@@ -7,6 +7,7 @@ from pyrosim.neuralNetwork import NEURAL_NETWORK
 import numpy as np
 import os
 import time
+import subprocess
 
 class Solution:
     def __init__(self, nextAvailableID):
@@ -22,7 +23,7 @@ class Solution:
         self.Create_World()
         self.Create_Body()
         self.Create_Brain()
-        os.system(f"python3 simulate.py {directOrGUI} {self.myID} 2&>1 &")
+        subprocess.run(f"python3 simulate.py {directOrGUI} {self.myID} 2&>1 &", shell=True)
 
     def Wait_For_Simulation_To_End(self):
         inFileName = f"fitness{self.myID}.txt"
@@ -40,6 +41,9 @@ class Solution:
             print(f"Error opening {inFileName}")
 
     def Mutate(self):
+        randRow = random.randint(0, c.numSensorNeurons - 1)
+        randCol = random.randint(0, c.numMotorNeurons - 1)
+        self.weights[randRow, randCol] = random.random() * 2 - 1
         randRow = random.randint(0, c.numSensorNeurons - 1)
         randCol = random.randint(0, c.numMotorNeurons - 1)
         self.weights[randRow, randCol] = random.random() * 2 - 1
