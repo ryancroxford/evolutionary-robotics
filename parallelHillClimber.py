@@ -12,6 +12,7 @@ class ParallelHillClimber:
         self.children = dict()
         self.nextAvailableID = 0
         self.child = None
+        self.generation = 1
         for i in range(c.populationSize):
             self.parents[i] = Solution(self.nextAvailableID)
             self.nextAvailableID += 1
@@ -49,15 +50,15 @@ class ParallelHillClimber:
 
     def Select(self):
         for key in self.parents:
-            if self.parents[key].fitness > self.children[key].fitness:
+            if self.parents[key].fitness < self.children[key].fitness:
                 self.parents[key] = self.children[key]
 
     def Show_Best(self):
         bestParent = None
-        bestFitness = 100000
+        bestFitness = -100000
         for key in self.parents:
             parent = self.parents[key]
-            if parent.fitness < bestFitness:
+            if parent.fitness > bestFitness:
                 bestParent = parent
                 bestFitness = parent.fitness
         print(bestFitness)
@@ -66,6 +67,8 @@ class ParallelHillClimber:
 
     def Print(self):
         print()
+        print(self.generation)
+        self.generation += 1
         for key in self.parents:
             print(f"Parent's fitness: {self.parents[key].fitness}, child fitness {self.children[key].fitness}")
         print()

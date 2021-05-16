@@ -7,6 +7,8 @@ from pyrosim.neuralNetwork import NEURAL_NETWORK
 import numpy as np
 import os
 import time
+import subprocess
+
 
 class Solution:
     def __init__(self, nextAvailableID):
@@ -22,7 +24,7 @@ class Solution:
         self.Create_World()
         self.Create_Body()
         self.Create_Brain()
-        os.system(f"python3 simulate.py {directOrGUI} {self.myID} &")
+        subprocess.run(f"python3 simulate.py {directOrGUI} {self.myID} 2&>1 &", shell=True)
 
     def Wait_For_Simulation_To_End(self):
         inFileName = f"fitness{self.myID}.txt"

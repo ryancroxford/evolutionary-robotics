@@ -5,6 +5,7 @@ import pyrosim.pyrosim as pyrosim
 import constants as c
 from pyrosim.neuralNetwork import NEURAL_NETWORK
 import os
+import numpy as np
 
 
 class Robot:
@@ -43,13 +44,37 @@ class Robot:
         # self.nn.Print()
 
     def Get_Fitness(self):
-        stateOfLinkZero = p.getLinkState(self.robot, 0)
-        positionOfLinkZero = stateOfLinkZero[0]
-        xCoordinateOfLinkZero = positionOfLinkZero[0]
+        lowerLinkNames = ["Back_Leg", "Front_Leg"]
+        lowerLinkSensorValues_array = []
+        for linkName in lowerLinkNames:
+            print(linkName)
+            lowerLinkSensorValues_array.append(self.sensors[linkName].values)
+        lowerLinkSensorValues_tuple = tuple(lowerLinkSensorValues_array)
+        lowerLinkSensorValues = np.vstack(lowerLinkSensorValues_array)
+        print(lowerLinkSensorValues)
+        lowerLinkSensorValues_means = np.mean(lowerLinkSensorValues, axis=0)
+        print(lowerLinkSensorValues_means)
+        try:
+            idx_pairs = np.where(np.diff(np.hstack(([False],
+                                                    lowerLinkSensorValues_means == -1,
+                                                    [False]))))[0].reshape(-1, 2)
+            print(idx_pairs)
+            longestFlightTime = idx_pairs[np.diff(idx_pairs, axis=1).argmax(), 1] - idx_pairs[
+                np.diff(idx_pairs, axis=1).argmax(), 0]
+        except ValueError:
+            longestFlightTime = 0
+
+        heights = [self.sensors["Torso"].values]
+        maxHeight = np.amax(heights)
+        basePositionAndOrientation = p.getBasePositionAndOrientation(self.robot)
+        basePosition = basePositionAndOrientation[0]
+        xPosition = basePosition[0]
+        zPosition = basePosition[2]
         outFileName = f"tmp{self.solutionID}.txt"
+        fitness = longestFlightTime * maxHeight * (-xPosition)
         try:
             outFile = open(outFileName, 'w')
-            outFile.write(str(xCoordinateOfLinkZero))
+            outFile.write(str(fitness))
             outFile.close()
             # print(f"Writing {outFileName}")
             os.system(f"mv tmp{self.solutionID}.txt fitness{self.solutionID}.txt")
