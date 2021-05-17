@@ -21,6 +21,7 @@ maxForceFrontLeg = 25
 numberOfGenerations = 50
 populationSize = 10
 
+
 numSensorNeurons = 4
 numMotorNeurons = 8
-motorJointRange = 1.0
+motorJointRange = 0.7
