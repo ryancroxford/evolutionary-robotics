@@ -18,9 +18,9 @@ frequencyFrontLeg = 20
 phaseOffsetFrontLeg = PI/3
 maxForceFrontLeg = 25
 
-numberOfGenerations = 5
-populationSize = 5
+numberOfGenerations = 50
+populationSize = 10
 
 numSensorNeurons = 4
 numMotorNeurons = 8
-motorJointRange = 0.2
+motorJointRange = 1.0

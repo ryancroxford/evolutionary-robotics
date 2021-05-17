@@ -59,6 +59,7 @@ class ParallelHillClimber:
         i = 0
         for key in self.parents:
             if self.parents[key].fitness < self.children[key].fitness:
+                # subprocess.run(f"rm brain{self.parents[key].myID}.nndf", shell=True)
                 self.parents[key] = self.children[key]
 
     def Show_Best(self):
@@ -71,7 +72,7 @@ class ParallelHillClimber:
                 bestFitness = parent.fitness
         print(bestFitness)
         bestParent.Start_Simulation("GUI")
-        np.save("fitness.npy", self.fitnessHistory)
+        np.save("fitnessA.npy", self.fitnessHistory)
         pass
 
     def Print(self):
