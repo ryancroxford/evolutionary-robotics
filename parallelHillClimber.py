@@ -5,6 +5,7 @@ from pyrosim.neuralNetwork import NEURAL_NETWORK
 from solution import Solution
 import copy
 import subprocess
+import numpy as np
 
 
 class ParallelHillClimber:
@@ -14,6 +15,7 @@ class ParallelHillClimber:
         self.nextAvailableID = 0
         self.child = None
         self.generation = 1
+        self.fitnessHistory = np.zeros((c.populationSize,c.numberOfGenerations))
         for i in range(c.populationSize):
             self.parents[i] = Solution(self.nextAvailableID)
             self.nextAvailableID += 1
@@ -23,8 +25,11 @@ class ParallelHillClimber:
         for key in solutions:
             solutions[key].Start_Simulation("DIRECT")
         subprocess.run("wait", shell=True)
+        popNum = 0
         for key in solutions:
             solutions[key].Wait_For_Simulation_To_End()
+            self.fitnessHistory[popNum, self.generation-1] = solutions[key].fitness
+            popNum += 1
 
     def Evolve(self):
         self.Evaluate(self.parents)
@@ -51,6 +56,7 @@ class ParallelHillClimber:
             self.children[key].Mutate()
 
     def Select(self):
+        i = 0
         for key in self.parents:
             if self.parents[key].fitness < self.children[key].fitness:
                 self.parents[key] = self.children[key]
@@ -65,6 +71,7 @@ class ParallelHillClimber:
                 bestFitness = parent.fitness
         print(bestFitness)
         bestParent.Start_Simulation("GUI")
+        np.save("fitness.npy", self.fitnessHistory)
         pass
 
     def Print(self):
